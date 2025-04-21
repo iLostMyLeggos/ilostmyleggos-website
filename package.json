@@ -1,0 +1,30 @@
+{
+  "name": "ilostmyleggos",
+  "version": "1.0.0",
+  "description": "ilostmyleggos website",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"No Test Available\"",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iLostMyLeggos/ilostmyleggos-website.git"
+  },
+  "keywords": [
+    "website",
+    "html"
+  ],
+  "author": "Samantha Snow",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iLostMyLeggos/ilostmyleggos-website/issues"
+  },
+  "homepage": "https://github.com/iLostMyLeggos/ilostmyleggos-website#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "http": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
