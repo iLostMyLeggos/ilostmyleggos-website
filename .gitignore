@@ -1,0 +1,7 @@
+*.exe
+*.zip
+*.code-workspace
+.env
+node_modules
+ignore
+*backup

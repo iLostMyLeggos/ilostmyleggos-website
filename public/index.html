@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iLostMyLegos - Addiction Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        /* Apply Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a0033; /* Dark Purple */
+            color: #e0e0e0; /* Light gray for text */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Starry background container */
+        .starry-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place behind content */
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            overflow: hidden;
+        }
+
+        /* Individual star styling and animation */
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 5s infinite ease-in-out;
+            box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff; /* Glow effect */
+            z-index: -1; /* Below content, same level as constellations */
+        }
+
+        /* Twinkle animation for stars */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Styling for constellation elements */
+        .constellation {
+            position: absolute;
+            width: 150px; /* Bigger size */
+            height: 150px;
+            z-index: -1; /* Below content, same level as stars */
+            opacity: 0.7; /* Start slightly faded */
+            animation: constellation-pulse 6s infinite ease-in-out;
+        }
+
+        /* Make SVG inside constellation responsive and brighter/glowy */
+        .constellation svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 8px rgba(173, 216, 230, 0.5)); /* Brighter glow */
+            overflow: visible; /* Allow glow/filter to extend */
+        }
+        /* Styles for SVG elements (dots, connectors) are defined *inside* the SVG string in the JS */
+
+
+        /* Pulsation animation for constellations (overall element) */
+        @keyframes constellation-pulse {
+            0%, 100% { opacity: 0.6; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+
+        /* Logo container styling */
+        .logo {
+            font-family: 'Great Vibes', cursive; /* Prettier font */
+            font-size: 5.5rem; /* Adjust size for new font */
+            line-height: 1; /* Adjust line height */
+            font-weight: normal; /* Script fonts often don't need bold */
+            display: inline-block; /* Ensure container wraps content */
+            margin-bottom: 0.5em; /* Add space below for star */
+        }
+
+        /* Shared style for logo spans */
+        .logo-i, .logo-rest {
+             background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffcc, #ff00cc); /* Pink, Blue, Teal gradient */
+            background-size: 200% auto; /* Size for animation */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+             /* Apply pulse-glow text shadow animation AND gradient flow */
+             text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(173, 216, 230, 0.5);
+             animation: gradient-flow 5s linear infinite, pulse-glow 3s infinite ease-in-out;
+        }
+
+        /* Style for the 'i' span */
+        .logo-i {
+            position: relative; /* For positioning the ::before pseudo-element */
+            margin-right: -0.1em; /* Adjust spacing if needed */
+        }
+
+        /* Style for the star dot above the 'i' */
+        .logo-i::before {
+            content: '★'; /* Star character */
+            position: absolute;
+            top: -0.45em; /* Adjust vertical position */
+            left: -0.05em; /* Adjust horizontal position */
+            font-size: 0.5em; /* Adjust star size */
+            font-family: 'Inter', sans-serif; /* Use a standard font for the star */
+            color: #fff; /* White color for star */
+            text-shadow: 0 0 6px #fff, 0 0 12px #00ffcc; /* White/Teal glow */
+             /* Remove background clip for the pseudo-element */
+            -webkit-background-clip: initial;
+            background-clip: initial;
+            /* Ensure color is not transparent */
+            color: #fff;
+             /* Star doesn't need pulse animation, parent handles glow */
+            animation: none;
+
+        }
+
+        /* Logo gradient animation */
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Logo pulsating glow animation (applied via text-shadow on spans) */
+        @keyframes pulse-glow {
+            0%, 100% { text-shadow: 0 0 8px rgba(255, 255, 255, 0.4), 0 0 18px rgba(173, 216, 230, 0.6), 0 0 28px rgba(255, 105, 180, 0.5); } /* Adjusted glow */
+            50% { text-shadow: 0 0 12px rgba(255, 255, 255, 0.6), 0 0 25px rgba(173, 216, 230, 0.8), 0 0 40px rgba(255, 105, 180, 0.7); }
+        }
+
+        /* --- NEW/MODIFIED FONT STYLES --- */
+
+        /* Tagline Styling */
+        .tagline {
+            color: #f4a8d7; /* Brighter Pink */
+            text-shadow: 0 0 6px rgba(255, 105, 180, 0.7), 0 0 10px rgba(255, 255, 255, 0.3); /* Pink/White glow */
+        }
+
+        /* Navigation Link Styling */
+        .nav-link {
+             /* color: #e0e0e0; */ /* Base color set by body, override on hover */
+             color: #ade6d8; /* Lighter Teal base color */
+             margin: 0 1rem;
+             padding: 0.5rem 0;
+             position: relative;
+             text-decoration: none;
+             transition: color 0.3s ease, text-shadow 0.3s ease; /* Added text-shadow transition */
+             display: inline-block;
+             margin-bottom: 0.5rem;
+             text-shadow: 0 0 5px rgba(0, 255, 204, 0.5), 0 0 8px rgba(255, 255, 255, 0.2); /* Subtle Teal/White glow */
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #00ffcc; /* Bright teal underline */
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #00ffcc; /* Bright teal hover */
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.8), 0 0 15px rgba(255, 255, 255, 0.4); /* Enhanced glow on hover */
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Section Styling */
+        .content-section {
+            background-color: rgba(40, 10, 70, 0.7); /* Slightly transparent darker purple */
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 20px rgba(173, 216, 230, 0.2); /* Subtle celestial glow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .content-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(173, 216, 230, 0.4);
+        }
+
+        /* Section Headings (h2) */
+        .content-section h2 {
+            /* Base color is set by Tailwind class (e.g., text-pink-400) */
+            /* Apply text-shadow based on the existing color */
+            margin-bottom: 1rem; /* Ensure spacing */
+            font-weight: 600; /* Slightly bolder */
+        }
+        /* Applying specific glows based on existing Tailwind colors */
+        .content-section h2.text-teal-300 { text-shadow: 0 0 8px rgba(45, 212, 191, 0.7), 0 0 12px rgba(255, 255, 255, 0.3); }
+        .content-section h2.text-pink-400 { text-shadow: 0 0 8px rgba(236, 72, 153, 0.7), 0 0 12px rgba(255, 255, 255, 0.3); }
+        .content-section h2.text-blue-400 { text-shadow: 0 0 8px rgba(96, 165, 250, 0.7), 0 0 12px rgba(255, 255, 255, 0.3); }
+        .content-section h2.text-teal-400 { text-shadow: 0 0 8px rgba(45, 212, 191, 0.7), 0 0 12px rgba(255, 255, 255, 0.3); } /* Reusing teal */
+        .content-section h2.text-purple-400 { text-shadow: 0 0 8px rgba(167, 139, 250, 0.7), 0 0 12px rgba(255, 255, 255, 0.3); }
+        .content-section h2.text-green-400 { text-shadow: 0 0 8px rgba(52, 211, 153, 0.7), 0 0 12px rgba(255, 255, 255, 0.3); }
+
+
+        /* Body Text within Sections */
+        .content-section p {
+            /* color: #e0e0e0; */ /* Inherits from body */
+             text-shadow: 0 0 3px rgba(224, 224, 224, 0.2); /* Very subtle white glow for readability */
+             line-height: 1.6; /* Improve readability */
+        }
+
+        /* Form Label Styling */
+        .content-section label {
+            color: #c1b7f0; /* Lighter purple */
+            text-shadow: 0 0 4px rgba(167, 139, 250, 0.5); /* Subtle purple glow */
+            font-weight: 500;
+        }
+
+        /* Footer Text Styling */
+        footer p {
+             text-shadow: 0 0 3px rgba(156, 163, 175, 0.3); /* Subtle gray glow */
+        }
+
+        /* --- END NEW/MODIFIED FONT STYLES --- */
+
+
+        /* Button styling */
+        .celestial-button {
+            background: linear-gradient(45deg, #6a0dad, #a020f0); /* Purple gradient */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer; /* Add cursor pointer */
+            /* Optional: Add subtle text glow to button text if desired */
+            /* text-shadow: 0 0 3px rgba(255, 255, 255, 0.4); */
+        }
+        .celestial-button:hover {
+            background: linear-gradient(45deg, #a020f0, #6a0dad);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(173, 216, 230, 0.4); /* Glow on hover */
+        }
+        .celestial-button-accent {
+            background: linear-gradient(45deg, #00ffaa, #00cc88); /* Bright green gradient */
+            color: #1a0033; /* Dark purple text */
+             /* Optional: Add subtle text glow to accent button text if desired */
+            /* text-shadow: 0 0 3px rgba(0, 0, 0, 0.2); */
+        }
+         .celestial-button-accent:hover {
+            background: linear-gradient(45deg, #00cc88, #00ffaa);
+            box-shadow: 0 6px 20px rgba(0, 255, 170, 0.4); /* Green glow on hover */
+        }
+
+        /* Form input styling */
+        .form-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(173, 216, 230, 0.5);
+            color: #e0e0e0;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            width: 100%; /* Ensure inputs take full width */
+        }
+        .form-input::placeholder {
+            color: rgba(224, 224, 224, 0.6);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #00ffcc; /* Bright teal focus */
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+
+        /* Image styling */
+        .feature-image {
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(173, 216, 230, 0.3);
+            object-fit: cover; /* Ensure images cover their container */
+            height: 250px; /* Fixed height for consistency */
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body class="relative">
+    <div class="starry-background" id="star-container"></div>
+
+    <header class="py-8 text-center relative z-10">
+        <h1 class="logo">
+            <span class="logo-i">i</span><span class="logo-rest">LostMyLegos</span>
+        </h1>
+        <p class="text-xl text-pink-300 mb-6 tagline">Rebuilding lives, one piece at a time.</p>
+         <nav class="flex justify-center flex-wrap mb-8">
+            <a href="#contact" class="nav-link">Contact</a>
+            <a href="#schedule" class="nav-link">Schedule Call</a>
+            <a href="#blog" class="nav-link">Blog</a>
+            <a href="#resources" class="nav-link">Find Resources</a>
+            <a href="#forum" class="nav-link">Community Forum</a>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 relative z-10">
+
+        <section class="content-section text-center mb-12">
+            <h2 class="text-3xl font-semibold mb-4 text-teal-300">Welcome to Your Safe Space</h2>
+            <p class="text-lg mb-6">Finding your way back can feel overwhelming, like searching for a lost piece. At iLostMyLegos, we understand. We're here to provide support, resources, and a community to help you rebuild and rediscover your strength. You are not alone.</p>
+            <img src="https://placehold.co/800x300/1a0033/e0e0e0?text=Supportive+Community"
+                 alt="Supportive community illustration"
+                 class="w-full max-w-3xl mx-auto rounded-lg shadow-lg"
+                 onerror="this.onerror=null; this.src='https://placehold.co/800x300/1a0033/e0e0e0?text=Image+Error';">
+        </section>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+
+            <section id="contact" class="content-section">
+                 <h2 class="text-2xl font-semibold mb-4 text-pink-400">Contact Me Directly</h2>
+                <p class="mb-4">Need someone to talk to privately? Reach out. Your message is confidential.</p>
+                <form>
+                    <div class="mb-4">
+                        <label for="name" class="block mb-1 text-sm font-medium">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" class="form-input">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block mb-1 text-sm font-medium">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" class="form-input">
+                    </div>
+                    <div class="mb-4">
+                        <label for="message" class="block mb-1 text-sm font-medium">Message</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Your message..." class="form-input"></textarea>
+                    </div>
+                    <button type="submit" class="celestial-button">Send Message</button>
+                </form>
+            </section>
+
+            <section id="schedule" class="content-section">
+                 <h2 class="text-2xl font-semibold mb-4 text-blue-400">Schedule a Support Call</h2>
+                 <img src="https://placehold.co/600x250/280a46/e0e0e0?text=Listening+Ear"
+                     alt="Person talking on phone for support"
+                     class="feature-image mb-4"
+                     onerror="this.onerror=null; this.src='https://placehold.co/600x250/280a46/e0e0e0?text=Image+Error';">
+                <p class="mb-4">Book a time that works for you to chat one-on-one. Let's discuss how we can help.</p>
+                <button class="celestial-button">Find Available Times</button>
+            </section>
+
+            <section id="blog" class="content-section">
+                 <h2 class="text-2xl font-semibold mb-4 text-teal-400">Insights & Stories Blog</h2>
+                 <img src="https://placehold.co/600x250/280a46/e0e0e0?text=Sharing+Hope"
+                     alt="Person writing or reading"
+                     class="feature-image mb-4"
+                     onerror="this.onerror=null; this.src='https://placehold.co/600x250/280a46/e0e0e0?text=Image+Error';">
+                <p class="mb-4">Read articles on recovery, mental wellness, and stories of hope from the community.</p>
+                <button class="celestial-button">Visit the Blog</button>
+            </section>
+
+            <section id="resources" class="content-section">
+                 <h2 class="text-2xl font-semibold mb-4 text-purple-400">Find Resources Near You</h2>
+                 <img src="https://placehold.co/600x250/280a46/e0e0e0?text=Finding+Help"
+                     alt="Map or directory illustration"
+                     class="feature-image mb-4"
+                     onerror="this.onerror=null; this.src='https://placehold.co/600x250/280a46/e0e0e0?text=Image+Error';">
+                <p class="mb-4">Locate NA/AA meetings, rehabilitation centers, therapists, and other vital addiction services.</p>
+                <button class="celestial-button">Search Resources</button>
+            </section>
+        </div>
+
+         <section id="forum" class="content-section text-center mb-12">
+             <h2 class="text-3xl font-semibold mb-4 text-green-400">Join the iLostMyLegos Community</h2>
+            <p class="text-lg mb-6">Connect with others who understand. Share experiences, offer support, and find strength in numbers in our secure online forum.</p>
+             <img src="https://placehold.co/800x300/1a0033/e0e0e0?text=Community+Connection"
+                 alt="Group of people connecting illustration"
+                 class="w-full max-w-3xl mx-auto rounded-lg shadow-lg mb-6"
+                 onerror="this.onerror=null; this.src='https://placehold.co/800x300/1a0033/e0e0e0?text=Image+Error';">
+            <button class="celestial-button celestial-button-accent text-lg">Enter the Forum</button>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-6 mt-12 border-t border-gray-700 relative z-10">
+        <p class="text-gray-400">&copy; 2025 iLostMyLegos - All Rights Reserved.</p>
+        <p class="text-sm text-gray-500 mt-1">Disclaimer: This site provides information and community support, not professional medical advice. If you are in crisis, please contact emergency services.</p>
+    </footer>
+
+    <script>
+        // --- Star Generation ---
+        /**
+         * Creates a single star element with random size, position, and animation properties.
+         * @returns {HTMLElement} The created star div element.
+         */
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            const size = Math.random() * 2 + 1; // Random size between 1px and 3px
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.top = `${Math.random() * 100}%`; // Random vertical position
+            star.style.left = `${Math.random() * 100}%`; // Random horizontal position
+            star.style.animationDelay = `${Math.random() * 5}s`; // Random start delay for twinkle
+            star.style.animationDuration = `${Math.random() * 3 + 4}s`; // Random duration (4s to 7s) for twinkle
+            return star;
+        }
+
+        // --- Constellation Data ---
+        // Array of SVG strings representing different constellations.
+        // Each SVG includes embedded <style> for twinkling dots and connector lines.
+        const constellationSVGs = [
+            // Aries (Ram) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 4s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="30" cy="70" style="animation-delay: 0.1s;"/><circle class="star-dot" cx="50" cy="50" style="animation-delay: 0.5s;"/><circle class="star-dot" cx="70" cy="60" style="animation-delay: 0.3s;"/><circle class="star-dot" cx="60" cy="80" style="animation-delay: 0.7s;"/><line class="connector" x1="30" y1="70" x2="50" y2="50"/><line class="connector" x1="50" y1="50" x2="70" y2="60"/><line class="connector" x1="70" y1="60" x2="60" y2="80"/></svg>`,
+            // Taurus (Bull) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 4.2s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="25" cy="40" style="animation-delay: 0.2s;"/><circle class="star-dot" cx="45" cy="30" style="animation-delay: 0.6s;"/><circle class="star-dot" cx="65" cy="30" style="animation-delay: 0.1s;"/><circle class="star-dot" cx="85" cy="40" style="animation-delay: 0.8s;"/><circle class="star-dot" cx="55" cy="60" style="animation-delay: 0.4s;"/><circle class="star-dot" cx="45" cy="80" style="animation-delay: 0.3s;"/><line class="connector" x1="25" y1="40" x2="45" y2="30"/><line class="connector" x1="45" y1="30" x2="55" y2="60"/><line class="connector" x1="65" y1="30" x2="55" y2="60"/><line class="connector" x1="85" y1="40" x2="65" y2="30"/><line class="connector" x1="55" y1="60" x2="45" y2="80"/></svg>`,
+            // Gemini (Twins) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 3.8s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="30" cy="30" style="animation-delay: 0.7s;"/><circle class="star-dot" cx="40" cy="70" style="animation-delay: 0.2s;"/><circle class="star-dot" cx="70" cy="30" style="animation-delay: 0.5s;"/><circle class="star-dot" cx="60" cy="70" style="animation-delay: 0.1s;"/><circle class="star-dot" cx="50" cy="50" style="animation-delay: 0.9s;"/><line class="connector" x1="30" y1="30" x2="40" y2="70"/><line class="connector" x1="70" y1="30" x2="60" y2="70"/><line class="connector" x1="30" y1="30" x2="50" y2="50"/><line class="connector" x1="70" y1="30" x2="50" y2="50"/></svg>`,
+            // Cancer (Crab) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 4.5s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="50" cy="50" style="animation-delay: 0.3s;"/><circle class="star-dot" cx="40" cy="40" style="animation-delay: 0.8s;"/><circle class="star-dot" cx="60" cy="40" style="animation-delay: 0.2s;"/><circle class="star-dot" cx="30" cy="60" style="animation-delay: 0.6s;"/><circle class="star-dot" cx="70" cy="60" style="animation-delay: 0.4s;"/><line class="connector" x1="40" y1="40" x2="50" y2="50"/><line class="connector" x1="60" y1="40" x2="50" y2="50"/><line class="connector" x1="30" y1="60" x2="50" y2="50"/><line class="connector" x1="70" y1="60" x2="50" y2="50"/><line class="connector" x1="40" y1="40" x2="30" y2="60"/><line class="connector" x1="60" y1="40" x2="70" y2="60"/></svg>`,
+            // Leo (Lion/Sickle) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 4.1s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="80" cy="70" style="animation-delay: 0.1s;"/><circle class="star-dot" cx="60" cy="60" style="animation-delay: 0.5s;"/><circle class="star-dot" cx="50" cy="40" style="animation-delay: 0.9s;"/><circle class="star-dot" cx="40" cy="30" style="animation-delay: 0.3s;"/><circle class="star-dot" cx="30" cy="40" style="animation-delay: 0.7s;"/><circle class="star-dot" cx="20" cy="55" style="animation-delay: 0.4s;"/><line class="connector" x1="80" y1="70" x2="60" y2="60"/><line class="connector" x1="60" y1="60" x2="50" y2="40"/><line class="connector" x1="50" y1="40" x2="40" y2="30"/><line class="connector" x1="40" y1="30" x2="30" y2="40"/><line class="connector" x1="30" y1="40" x2="20" y2="55"/></svg>`,
+            // Virgo (Maiden) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 4.3s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="30" cy="30" style="animation-delay: 0.6s;"/><circle class="star-dot" cx="50" cy="50" style="animation-delay: 0.2s;"/><circle class="star-dot" cx="70" cy="40" style="animation-delay: 0.8s;"/><circle class="star-dot" cx="60" cy="70" style="animation-delay: 0.1s;"/><circle class="star-dot" cx="40" cy="80" style="animation-delay: 0.5s;"/><line class="connector" x1="30" y1="30" x2="50" y2="50"/><line class="connector" x1="50" y1="50" x2="70" y2="40"/><line class="connector" x1="50" y1="50" x2="60" y2="70"/><line class="connector" x1="60" y1="70" x2="40" y2="80"/></svg>`,
+            // Libra (Scales) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 3.9s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="20" cy="50" style="animation-delay: 0.4s;"/><circle class="star-dot" cx="40" cy="40" style="animation-delay: 0.9s;"/><circle class="star-dot" cx="60" cy="40" style="animation-delay: 0.2s;"/><circle class="star-dot" cx="80" cy="50" style="animation-delay: 0.7s;"/><circle class="star-dot" cx="50" cy="70" style="animation-delay: 0.3s;"/><line class="connector" x1="20" y1="50" x2="40" y2="40"/><line class="connector" x1="40" y1="40" x2="60" y2="40"/><line class="connector" x1="60" y1="40" x2="80" y2="50"/><line class="connector" x1="40" y1="40" x2="50" y2="70"/><line class="connector" x1="60" y1="40" x2="50" y2="70"/></svg>`,
+            // Scorpio (Scorpion) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 4.6s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="30" cy="30" style="animation-delay: 0.1s;"/><circle class="star-dot" cx="50" cy="40" style="animation-delay: 0.6s;"/><circle class="star-dot" cx="70" cy="30" style="animation-delay: 0.3s;"/><circle class="star-dot" cx="50" cy="60" style="animation-delay: 0.9s;"/><circle class="star-dot" cx="60" cy="75" style="animation-delay: 0.2s;"/><circle class="star-dot" cx="75" cy="85" style="animation-delay: 0.7s;"/><line class="connector" x1="30" y1="30" x2="50" y2="40"/><line class="connector" x1="70" y1="30" x2="50" y2="40"/><line class="connector" x1="50" y1="40" x2="50" y2="60"/><line class="connector" x1="50" y1="60" x2="60" y2="75"/><line class="connector" x1="60" y1="75" x2="75" y2="85"/></svg>`,
+            // Sagittarius (Archer) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 4.0s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="20" cy="70" style="animation-delay: 0.5s;"/><circle class="star-dot" cx="40" cy="60" style="animation-delay: 0.1s;"/><circle class="star-dot" cx="60" cy="70" style="animation-delay: 0.8s;"/><circle class="star-dot" cx="50" cy="40" style="animation-delay: 0.4s;"/><circle class="star-dot" cx="70" cy="30" style="animation-delay: 0.9s;"/><circle class="star-dot" cx="90" cy="20" style="animation-delay: 0.2s;"/><line class="connector" x1="20" y1="70" x2="40" y2="60"/><line class="connector" x1="40" y1="60" x2="60" y2="70"/><line class="connector" x1="40" y1="60" x2="50" y2="40"/><line class="connector" x1="50" y1="40" x2="70" y2="30"/><line class="connector" x1="70" y1="30" x2="90" y2="20"/><line class="connector" x1="60" y1="70" x2="50" y2="40"/></svg>`,
+            // Capricorn (Goat-Fish) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 4.4s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="30" cy="40" style="animation-delay: 0.7s;"/><circle class="star-dot" cx="50" cy="30" style="animation-delay: 0.3s;"/><circle class="star-dot" cx="70" cy="40" style="animation-delay: 0.9s;"/><circle class="star-dot" cx="80" cy="60" style="animation-delay: 0.2s;"/><circle class="star-dot" cx="70" cy="80" style="animation-delay: 0.6s;"/><circle class="star-dot" cx="50" cy="70" style="animation-delay: 0.1s;"/><line class="connector" x1="30" y1="40" x2="50" y2="30"/><line class="connector" x1="50" y1="30" x2="70" y2="40"/><line class="connector" x1="70" y1="40" x2="80" y2="60"/><line class="connector" x1="80" y1="60" x2="70" y2="80"/><line class="connector" x1="70" y1="80" x2="50" y2="70"/><line class="connector" x1="50" y1="70" x2="30" y2="40"/></svg>`,
+            // Aquarius (Water Bearer) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 3.7s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="30" cy="30" style="animation-delay: 0.4s;"/><circle class="star-dot" cx="50" cy="40" style="animation-delay: 0.8s;"/><circle class="star-dot" cx="70" cy="30" style="animation-delay: 0.1s;"/><circle class="star-dot" cx="60" cy="60" style="animation-delay: 0.7s;"/><circle class="star-dot" cx="40" cy="70" style="animation-delay: 0.3s;"/><circle class="star-dot" cx="50" cy="85" style="animation-delay: 0.9s;"/><line class="connector" x1="30" y1="30" x2="50" y2="40"/><line class="connector" x1="70" y1="30" x2="50" y2="40"/><line class="connector" x1="50" y1="40" x2="60" y2="60"/><line class="connector" x1="60" y1="60" x2="40" y2="70"/><line class="connector" x1="40" y1="70" x2="50" y2="85"/></svg>`,
+            // Pisces (Fish) - Includes internal CSS animation for dots
+            `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>@keyframes twinkle-dot{0%,100%{opacity:0.4;r:1.8;}50%{opacity:1;r:2.2;}}.star-dot{fill:white;r:2;animation:twinkle-dot 4.7s infinite ease-in-out;}.connector{stroke:rgba(255,255,255,0.5);stroke-width:1;}</style><circle class="star-dot" cx="20" cy="70" style="animation-delay: 0.2s;"/><circle class="star-dot" cx="40" cy="60" style="animation-delay: 0.7s;"/><circle class="star-dot" cx="60" cy="50" style="animation-delay: 0.4s;"/><circle class="star-dot" cx="80" cy="40" style="animation-delay: 0.9s;"/><circle class="star-dot" cx="70" cy="70" style="animation-delay: 0.1s;"/><circle class="star-dot" cx="50" cy="80" style="animation-delay: 0.6s;"/><line class="connector" x1="20" y1="70" x2="40" y2="60"/><line class="connector" x1="40" y1="60" x2="60" y2="50"/><line class="connector" x1="60" y1="50" x2="80" y2="40"/><line class="connector" x1="80" y1="40" x2="70" y2="70"/><line class="connector" x1="70" y1="70" x2="50" y2="80"/><line class="connector" x1="50" y1="80" x2="20" y2="70"/></svg>`
+        ];
+
+
+        // Approximate positions for constellations (top%, left%) - spread out across the screen
+        const constellationPositions = [
+            { top: '10%', left: '10%' }, { top: '15%', left: '75%' },
+            { top: '30%', left: '30%' }, { top: '25%', left: '90%' },
+            { top: '50%', left: '5%' },  { top: '45%', left: '60%' },
+            { top: '70%', left: '20%' }, { top: '65%', left: '85%' },
+            { top: '85%', left: '50%' }, { top: '5%', left: '40%' },
+            { top: '90%', left: '5%' },  { top: '80%', left: '70%' }
+        ];
+
+        // --- Constellation Generation ---
+        /**
+         * Creates a constellation element with the provided SVG, position, and index.
+         * @param {string} svgString - The SVG markup for the constellation.
+         * @param {object} position - An object with 'top' and 'left' percentage strings.
+         * @param {number} index - The index of the constellation (used for animation staggering).
+         * @returns {HTMLElement} The created constellation div element.
+         */
+        function createConstellation(svgString, position, index) {
+            const constellation = document.createElement('div');
+            constellation.classList.add('constellation');
+            constellation.innerHTML = svgString; // Embed the SVG string
+            constellation.style.top = position.top;
+            constellation.style.left = position.left;
+            // Vary overall constellation pulse animation delay to stagger them
+            constellation.style.animationDelay = `${(index % 6) * 0.5}s`;
+            // Randomize pulse duration slightly for variation
+            constellation.style.animationDuration = `${Math.random() * 2 + 5}s`; // Duration between 5s and 7s
+            return constellation;
+        }
+
+
+        // --- Initialization ---
+        // Get the container element for stars and constellations
+        const starContainer = document.getElementById('star-container');
+        const numberOfStars = 300; // Adjust density as needed
+
+        // Check if the container exists before adding elements
+        if (starContainer) {
+            // Generate and append stars to the container
+            for (let i = 0; i < numberOfStars; i++) {
+                starContainer.appendChild(createStar());
+            }
+
+            // Generate and append constellations to the container
+            constellationSVGs.forEach((svg, index) => {
+                // Ensure there's a corresponding position defined
+                if (constellationPositions[index]) {
+                    starContainer.appendChild(createConstellation(svg, constellationPositions[index], index));
+                }
+            });
+
+        } else {
+            console.error("Error: Star container element (#star-container) not found in the DOM.");
+        }
+
+        // --- Smooth Scrolling for Anchor Links ---
+        // Select all anchor links that start with '#'
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            // Add a click event listener to each anchor link
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent the default jump behavior
+
+                // Get the target element's ID from the href attribute
+                const targetId = this.getAttribute('href');
+                try {
+                    const targetElement = document.querySelector(targetId);
+                    // If the target element exists, scroll to it smoothly
+                    if(targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth' // Enable smooth scrolling
+                        });
+                    } else {
+                         console.warn(`Smooth scroll target not found: ${targetId}`);
+                    }
+                } catch (error) {
+                     console.error(`Error finding smooth scroll target: ${targetId}`, error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
