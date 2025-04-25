@@ -325,7 +325,7 @@ footer p {
 .feature-image {
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(173, 216, 230, 0.3);
-    object-fit: cover; /* Ensure images cover their container */
-    height: 250px; /* Fixed height for consistency */
+    /* object-fit: cover;  */
+    /* height: 250px; */
     width: 100%;
 }
