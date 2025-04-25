@@ -7,4 +7,4 @@ ignore
 *backup
 *.swp
 .windsurfrules
-
+*:Zone.Identifier
