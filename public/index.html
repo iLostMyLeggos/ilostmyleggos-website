@@ -14,22 +14,24 @@
 <body class="relative">
     <div class="starry-background" id="star-container"></div>
 
-    <header class="py-8 text-center relative z-10">
-        <div class="logo-container">
-            <h1 class="logo">
-                <span class="logo-i">i</span><span class="logo-rest">LostMyLegos</span>
-            </h1>
+    <header class="py-8 text-center relative z-10" id="main-header">
+        <div class="header-inner">
+            <div class="logo-container">
+                <h1 class="logo">
+                    <span class="logo-i">i</span><span class="logo-rest">LostMyLegos</span>
+                </h1>
+            </div>
+            <nav class="nav-bar flex justify-center flex-wrap mb-8">
+                <a href="#contact" class="nav-link">Contact</a>
+                <a href="#schedule" class="nav-link">Schedule Call</a>
+                <a href="#blog" class="nav-link">Blog</a>
+                <a href="#resources" class="nav-link">Find Resources</a>
+                <a href="#forum" class="nav-link">Community Forum</a>
+            </nav>
         </div>
         <div class="dark-fog">
             <p class="text-xl my-6 tagline">Rebuilding lives, one piece at a time. One day at a time.</p>
         </div>
-        <nav class="flex justify-center flex-wrap mb-8">
-            <a href="#contact" class="nav-link">Contact</a>
-            <a href="#schedule" class="nav-link">Schedule Call</a>
-            <a href="#blog" class="nav-link">Blog</a>
-            <a href="#resources" class="nav-link">Find Resources</a>
-            <a href="#forum" class="nav-link">Community Forum</a>
-        </nav>
     </header>
 
     <main class="container mx-auto px-4 relative z-10">
@@ -243,6 +245,28 @@
                 }
             });
         });
+
+        // Sticky Header Logic
+        (function() {
+          var header = document.getElementById('main-header');
+          var headerInner = header.querySelector('.header-inner');
+          var logo = header.querySelector('.logo');
+          var nav = header.querySelector('.nav-bar');
+          var stickyActive = false;
+          var headerHeight = header.offsetHeight;
+
+          function onScroll() {
+            var scrollY = window.scrollY || window.pageYOffset;
+            if (scrollY > headerHeight && !stickyActive) {
+              header.classList.add('sticky-header');
+              stickyActive = true;
+            } else if (scrollY <= headerHeight && stickyActive) {
+              header.classList.remove('sticky-header');
+              stickyActive = false;
+            }
+          }
+          window.addEventListener('scroll', onScroll);
+        })();
     </script>
 </body>
 </html>

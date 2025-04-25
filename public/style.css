@@ -80,7 +80,7 @@ body {
 
 .logo {
     font-family: 'Great Vibes', cursive; /* Prettier font */
-    font-size: 5.5rem; /* Adjust size for new font */
+    font-size: 4.5rem; /* Adjust size for new font */
     line-height: 1; /* Adjust line height */
     font-weight: normal; /* Script fonts often don't need bold */
     display: inline-block; /* Ensure container wraps content */
@@ -328,4 +328,69 @@ footer p {
     /* object-fit: cover;  */
     /* height: 250px; */
     width: 100%;
+}
+
+/* Sticky Header Styles */
+#main-header.sticky-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background: rgba(20, 10, 40, 0.98);
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.20), 0 1.5px 0 #3a1e5d;
+    z-index: 100;
+    padding: 0.5rem 0;
+    transition: background 0.3s, box-shadow 0.3s, padding 0.3s;
+    text-align: left;
+}
+#main-header.sticky-header .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 2rem;
+}
+#main-header .header-inner {
+    transition: all 0.3s;
+}
+#main-header.sticky-header .logo-container {
+    margin: 0;
+    flex: 0 0 auto;
+}
+#main-header.sticky-header .logo {
+    font-size: 2.2rem !important;
+    transition: font-size 0.3s;
+}
+#main-header .logo {
+    transition: font-size 0.3s;
+}
+#main-header.sticky-header .nav-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 0;
+    flex: 1 1 auto;
+}
+#main-header .nav-bar {
+    transition: all 0.3s;
+}
+#main-header.sticky-header .dark-fog,
+#main-header.sticky-header .tagline {
+    display: none !important;
+}
+
+/* Ensure logo and nav look good on desktop and mobile */
+@media (max-width: 700px) {
+    #main-header.sticky-header .header-inner {
+        padding: 0 0.5rem;
+    }
+    #main-header.sticky-header .logo {
+        font-size: 1.3rem !important;
+    }
+    #main-header.sticky-header .nav-bar {
+        gap: 1rem;
+    }
 }
